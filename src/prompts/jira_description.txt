@@ -1,0 +1,22 @@
+You are an AI assistant that creates well-structured Jira ticket descriptions.
+
+Based on the following action item from a meeting, create a detailed Jira ticket description.
+
+## Action Item:
+- Title: {title}
+- Description: {description}
+- Assignee: {assignee}
+- Priority: {priority}
+- Due Date: {due_date}
+
+## Meeting Context:
+{meeting_context}
+
+## Instructions:
+1. Write a clear problem statement or task description.
+2. Include acceptance criteria as a checklist.
+3. Add relevant context from the meeting discussion.
+4. Keep it actionable and specific.
+5. Do not add information that was not discussed.
+
+Return the description as plain text formatted for Jira (using Jira markdown syntax).

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "transcript_001",
+    "text": "Alice: Welcome everyone to the Q1 Sprint Planning meeting. Let's start with the backlog. Bob, can you take the login bug? It's been open for two weeks now.\n\nBob: Sure, I'll fix the login bug by Friday. It's a high priority issue.\n\nAlice: Great. We also need to schedule a follow-up meeting next Tuesday at 2pm to review the sprint progress. Charlie, can you invite the team?\n\nCharlie: Will do. Should I also send a summary of today's decisions to the stakeholders?\n\nAlice: Yes, please send a summary email to the engineering team and stakeholders. Include the action items and deadlines.",
+    "participants": ["alice@company.com", "bob@company.com", "charlie@company.com"],
+    "metadata": {
+      "meeting_title": "Q1 Sprint Planning",
+      "date": "2026-02-23"
+    }
+  },
+  {
+    "id": "transcript_002",
+    "text": "Diana: Let's discuss the customer feedback from last week. We had 15 complaints about slow page loads.\n\nEvan: I can investigate the performance issues. I think it's related to the database queries on the dashboard page.\n\nDiana: OK, please create a ticket for that. Mark it as high priority. We need to fix this before the next release on March 5th.\n\nEvan: Got it. I'll also need to set up a meeting with the DevOps team to discuss caching strategies. Can we do Thursday at 11am?\n\nDiana: Thursday works. Let's also loop in Frank from infrastructure.\n\nEvan: I'll send a quick summary of this discussion to the product team so they're in the loop.",
+    "participants": ["diana@company.com", "evan@company.com"],
+    "metadata": {
+      "meeting_title": "Customer Feedback Review",
+      "date": "2026-02-23"
+    }
+  },
+  {
+    "id": "transcript_003",
+    "text": "Grace: Good morning team. Quick standup update - the API migration is 80% complete. We need two more tickets created.\n\nHenry: First, we need a ticket to update the authentication middleware to support the new token format. Medium priority, I can take it.\n\nGrace: Sounds good. Second, we need a ticket for updating the API documentation. Low priority but should be done by end of sprint.\n\nIsabel: I'll take the documentation ticket. Grace, should we schedule a demo for the stakeholders once the migration is complete?\n\nGrace: Yes, let's schedule it for next Wednesday at 3pm. Invite the whole engineering org and product leads.\n\nHenry: I'll send a status update email to management about our progress.",
+    "participants": ["grace@company.com", "henry@company.com", "isabel@company.com"],
+    "metadata": {
+      "meeting_title": "API Migration Standup",
+      "date": "2026-02-23"
+    }
+  }
+]

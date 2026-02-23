@@ -1,0 +1,76 @@
+[
+  {
+    "id": "transcript_001",
+    "actions": [
+      {
+        "type": "jira_ticket",
+        "title": "Fix login bug",
+        "assignee": "Bob",
+        "priority": "high",
+        "due_date": "2026-02-27"
+      },
+      {
+        "type": "calendar_event",
+        "title": "Sprint Review Meeting",
+        "attendees": ["alice@company.com", "bob@company.com", "charlie@company.com"],
+        "meeting_time": "2026-02-25T14:00:00Z"
+      },
+      {
+        "type": "email_summary",
+        "title": "Q1 Sprint Planning Summary",
+        "recipients": ["engineering@company.com", "stakeholders@company.com"]
+      }
+    ]
+  },
+  {
+    "id": "transcript_002",
+    "actions": [
+      {
+        "type": "jira_ticket",
+        "title": "Investigate and fix dashboard performance issues",
+        "assignee": "Evan",
+        "priority": "high",
+        "due_date": "2026-03-05"
+      },
+      {
+        "type": "calendar_event",
+        "title": "Caching Strategy Discussion with DevOps",
+        "attendees": ["diana@company.com", "evan@company.com", "frank@company.com"],
+        "meeting_time": "2026-02-26T11:00:00Z"
+      },
+      {
+        "type": "email_summary",
+        "title": "Customer Feedback Discussion Summary",
+        "recipients": ["product@company.com"]
+      }
+    ]
+  },
+  {
+    "id": "transcript_003",
+    "actions": [
+      {
+        "type": "jira_ticket",
+        "title": "Update authentication middleware for new token format",
+        "assignee": "Henry",
+        "priority": "medium"
+      },
+      {
+        "type": "jira_ticket",
+        "title": "Update API documentation",
+        "assignee": "Isabel",
+        "priority": "low"
+      },
+      {
+        "type": "calendar_event",
+        "title": "API Migration Demo for Stakeholders",
+        "attendees": ["engineering@company.com", "product-leads@company.com"],
+        "meeting_time": "2026-02-27T15:00:00Z"
+      },
+      {
+        "type": "email_summary",
+        "title": "API Migration Status Update",
+        "recipients": ["management@company.com"]
+      }
+    ]
+  }
+]
