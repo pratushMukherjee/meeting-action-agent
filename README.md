@@ -32,64 +32,64 @@ Built as a production-grade agentic system demonstrating **ReAct-style reasoning
 ┌─────────────────────────────────────────────────────────────────────┐
 │                       MEETING ACTION AGENT                          │
 │                                                                     │
-│  ┌───────────┐    ┌───────────┐    ┌────────────────────────────┐  │
-│  │  Client    │───▶│  FastAPI  │───▶│  Celery Task Queue         │  │
-│  │ (REST API) │◀───│  REST API │    │  (Redis Broker)            │  │
-│  └───────────┘    └─────┬─────┘    └──────────────┬─────────────┘  │
+│  ┌───────────┐    ┌───────────┐    ┌────────────────────────────┐   │
+│  │  Client    │───▶│  FastAPI  │───▶│  Celery Task Queue       │   │
+│  │ (REST API) │◀───│  REST API │    │  (Redis Broker)          │    │
+│  └───────────┘    └─────┬─────┘    └──────────────┬─────────────┘   │
 │                         │                         │                 │
 │                         │ Prometheus              │                 │
 │                         │ /metrics                ▼                 │
-│                         │             ┌──────────────────────┐     │
-│                         │             │ LangGraph Agent Core │     │
-│                         │             │                      │     │
-│                         │             │ ┌──────────────────┐ │     │
-│                         │             │ │ parse_transcript │ │     │
-│                         │             │ └────────┬─────────┘ │     │
-│                         │             │          ▼           │     │
-│                         │             │ ┌──────────────────┐ │     │
-│                         │             │ │ plan_actions     │ │     │
-│                         │             │ └────────┬─────────┘ │     │
-│                         │             │          ▼           │     │
-│                         │             │ ┌──────────────────┐ │     │
-│                         │             │ │ human_approval   │ │     │
-│                         │             │ │ (HITL interrupt) │ │     │
-│                         │             │ └────────┬─────────┘ │     │
-│                         │             │          ▼           │     │
-│                         │             │ ┌──────┬─────┬────┐ │     │
-│                         │             │ │ Jira │Email│Cal │ │     │
-│                         │             │ │ Wrkr │Wrkr │Wrkr│ │     │
-│                         │             │ └──┬───┴──┬──┴──┬─┘ │     │
-│                         │             │    ▼      ▼     ▼   │     │
-│                         │             │ ┌──────────────────┐ │     │
-│                         │             │ │ synthesize       │ │     │
-│                         │             │ └──────────────────┘ │     │
-│                         │             └──────────┬───────────┘     │
-│                         │                        │                 │
-│  ┌──────────────────────┴────────────────────────┴──────────────┐  │
-│  │                     External Services                        │  │
-│  │  ┌───────────┐  ┌───────────┐  ┌──────────────┐             │  │
-│  │  │ Jira API  │  │ Gmail API │  │ Calendar API │             │  │
-│  │  └───────────┘  └───────────┘  └──────────────┘             │  │
-│  └──────────────────────────────────────────────────────────────┘  │
+│                         │             ┌──────────────────────┐      │
+│                         │             │ LangGraph Agent Core │      │
+│                         │             │                      │      │
+│                         │             │ ┌──────────────────┐ │      │
+│                         │             │ │ parse_transcript │ │      │
+│                         │             │ └────────┬─────────┘ │      │
+│                         │             │          ▼           │      │
+│                         │             │ ┌──────────────────┐ │      │
+│                         │             │ │ plan_actions     │ │      │
+│                         │             │ └────────┬─────────┘ │      │
+│                         │             │          ▼           │      │
+│                         │             │ ┌──────────────────┐ │      │
+│                         │             │ │ human_approval   │ │      │
+│                         │             │ │ (HITL interrupt) │ │      │
+│                         │             │ └────────┬─────────┘ │      │
+│                         │             │          ▼           │      │
+│                         │             │ ┌──────┬─────┬────┐ │       │
+│                         │             │ │ Jira │Email│Cal │ │       │
+│                         │             │ │ Wrkr │Wrkr │Wrkr│ │       │
+│                         │             │ └──┬───┴──┬──┴──┬─┘ │       │
+│                         │             │    ▼      ▼     ▼   │       │
+│                         │             │ ┌──────────────────┐ │      │
+│                         │             │ │ synthesize       │ │      │
+│                         │             │ └──────────────────┘ │      │
+│                         │             └──────────┬───────────┘      │
+│                         │                        │                  │
+│  ┌──────────────────────┴────────────────────────┴──────────────┐   │
+│  │                     External Services                        │   │
+│  │  ┌───────────┐  ┌───────────┐  ┌──────────────┐              │   │
+│  │  │ Jira API  │  │ Gmail API │  │ Calendar API │              │   │
+│  │  └───────────┘  └───────────┘  └──────────────┘              │   │
+│  └──────────────────────────────────────────────────────────────┘   │
 │                                                                     │
-│  ┌──────────────────────────────────────────────────────────────┐  │
-│  │                     Data & Persistence                       │  │
-│  │  ┌──────────────────┐  ┌──────────────────┐                 │  │
-│  │  │ PostgreSQL       │  │ Redis            │                 │  │
-│  │  │ - Transcripts    │  │ - Hot state      │                 │  │
-│  │  │ - Action records │  │ - Celery broker  │                 │  │
-│  │  │ - Audit logs     │  │ - Rate limiting  │                 │  │
-│  │  │ - Checkpoints    │  │ - Checkpoints    │                 │  │
-│  │  └──────────────────┘  └──────────────────┘                 │  │
-│  └──────────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────────┐   │
+│  │                     Data & Persistence                       │   │
+│  │  ┌──────────────────┐  ┌──────────────────┐                  │   │
+│  │  │ PostgreSQL       │  │ Redis            │                  │   │
+│  │  │ - Transcripts    │  │ - Hot state      │                  │   │
+│  │  │ - Action records │  │ - Celery broker  │                  │   │
+│  │  │ - Audit logs     │  │ - Rate limiting  │                  │   │
+│  │  │ - Checkpoints    │  │ - Checkpoints    │                  │   │
+│  │  └──────────────────┘  └──────────────────┘                  │   │
+│  └──────────────────────────────────────────────────────────────┘   │
 │                                                                     │
-│  ┌──────────────────────────────────────────────────────────────┐  │
-│  │                     Observability                            │  │
-│  │  ┌────────────┐ ┌──────────┐ ┌───────────┐ ┌─────────────┐ │  │
-│  │  │ Prometheus │ │ Grafana  │ │ LangSmith │ │ Structured  │ │  │
-│  │  │ Metrics    │ │Dashboards│ │ Tracing   │ │ JSON Logs   │ │  │
-│  │  └────────────┘ └──────────┘ └───────────┘ └─────────────┘ │  │
-│  └──────────────────────────────────────────────────────────────┘  │
+│  ┌──────────────────────────────────────────────────────────────┐   │
+│  │                     Observability                            │   │
+│  │  ┌────────────┐ ┌──────────┐ ┌───────────┐ ┌─────────────┐   │   │
+│  │  │ Prometheus │ │ Grafana  │ │ LangSmith │ │ Structured  │   │   │
+│  │  │ Metrics    │ │Dashboards│ │ Tracing   │ │ JSON Logs   │   │   │
+│  │  └────────────┘ └──────────┘ └───────────┘ └─────────────┘   │   │
+│  └──────────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -106,28 +106,28 @@ Built as a production-grade agentic system demonstrating **ReAct-style reasoning
                    ┌─────┴─────┐
                    ▼           ▼
              items found    no items ─────────────────┐
-                   │                                   │
-                   ▼                                   │
-           ┌──────────────┐                            │
-           │ plan_actions │    LLM determines          │
-           └──────┬───────┘    execution order         │
-                  │                                    │
-                  ▼                                    │
-          ┌───────────────┐                            │
-          │human_approval │    interrupt() pauses      │
-          │  (HITL gate)  │    graph for user review   │
-          └───────┬───────┘                            │
-                  │                                    │
-            ┌─────┴─────┐                              │
-            ▼           ▼                              │
+                   │                                  │
+                   ▼                                  │
+           ┌──────────────┐                           │
+           │ plan_actions │    LLM determines         │
+           └──────┬───────┘    execution order        │
+                  │                                   │
+                  ▼                                   │
+          ┌───────────────┐                           │
+          │human_approval │    interrupt() pauses     │
+          │  (HITL gate)  │    graph for user review  │
+          └───────┬───────┘                           │
+                  │                                   │
+            ┌─────┴─────┐                             │
+            ▼           ▼                             │
          approved    rejected ─────────────────┐      │
             │                                  │      │
      ┌──────┼──────┐                           │      │
      ▼      ▼      ▼                           │      │
-  ┌──────┐┌──────┐┌──────┐   Fan-out via      │      │
+  ┌──────┐┌──────┐┌──────┐   Fan-out via       │      │
   │ Jira ││Email ││ Cal  │   Send API          │      │
   │Worker││Worker││Worker│   (parallel)        │      │
-  └──┬───┘└──┬───┘└──┬───┘                    │      │
+  └──┬───┘└──┬───┘└──┬───┘                     │      │
      │       │       │                         │      │
      └───────┼───────┘                         │      │
              ▼                                 ▼      ▼
@@ -144,22 +144,22 @@ Each worker node follows a ReAct (Reasoning + Acting) pattern:
 
 ```
 ┌─────────────────────────────────────────────────┐
-│                  ReAct Loop                      │
-│                                                  │
-│  REASON ──▶ What action items exist?             │
-│     │       Which tool should I call?            │
-│     │       What parameters are needed?          │
-│     ▼                                            │
-│  ACT ────▶ Call Jira / Gmail / Calendar API      │
-│     │       with validated parameters            │
-│     ▼                                            │
-│  OBSERVE ─▶ Did the API call succeed?            │
-│     │        Parse response, extract IDs         │
-│     ▼                                            │
-│  REASON ──▶ Are there more actions?              │
-│     │       Should I retry (transient error)?    │
-│     │       Should I fail (permanent error)?     │
-│     └──────▶ Loop or Terminate                   │
+│                  ReAct Loop                     │
+│                                                 │
+│  REASON ──▶ What action items exist?            │
+│     │       Which tool should I call?           │
+│     │       What parameters are needed?         │
+│     ▼                                           │
+│  ACT ────▶ Call Jira / Gmail / Calendar API     │
+│     │       with validated parameters           │
+│     ▼                                           │
+│  OBSERVE ─▶ Did the API call succeed?           │
+│     │        Parse response, extract IDs        │
+│     ▼                                           │
+│  REASON ──▶ Are there more actions?             │
+│     │       Should I retry (transient error)?   │
+│     │       Should I fail (permanent error)?    │
+│     └──────▶ Loop or Terminate                 │
 └─────────────────────────────────────────────────┘
 ```
 
